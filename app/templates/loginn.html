@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Login User Page</title>
+
+<style>
+.head {
+text-align:center
+}
+
+</style>
+</head>
+<body>
+<header class="head">
+  <h1>JobApplication Portfolio</h1>
+  
+</header>
+<hr>
+<br>
+
+<form method="POST">
+<h2>Login</h2>
+{% csrf_token %}
+<label>Username:</label><input type="text" name="username" placeholder="Username" required><br><br>
+<label>Password :</label><input type="password" name="password" placeholder="Password" required><br><br>
+<button type="submit">Login</button>
+</form>
+</body>
+</html>

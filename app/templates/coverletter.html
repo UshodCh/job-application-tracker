@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cover Letter Generator</title>
+    <style>
+        body { font-family: Arial; max-width: 800px; margin: 40px auto; padding: 20px; }
+        textarea { width: 100%; padding: 10px; margin: 10px 0; border-radius: 5px; border: 1px solid #ccc; }
+        button { background-color: #3498db; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; }
+        .result { background-color: #f0f0f0; padding: 20px; border-radius: 5px; margin-top: 20px; white-space: pre-wrap; }
+        .profile-info { background-color: #eaf4ff; padding: 15px; border-radius: 5px; margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+    <h1>AI Cover Letter Generator ✨</h1>
+
+    <div class="profile-info">
+        <strong>Generating for:</strong> {{ profile.full_name }}<br>
+        <strong>Skills:</strong> {{ profile.skills }}
+        <a href="{% url 'profile' %}" style="float:right;">Edit Profile</a>
+    </div>
+    <form method="POST">
+        {% csrf_token %}
+        <label>Paste Job Description:</label>
+        <textarea name="job_description" rows="8" placeholder="Paste the full job description here..." required></textarea>
+        <button type="submit">Generate Cover Letter ✨</button>
+    </form>
+    {% if cover_letter %}
+    <h2>Your Cover Letter:</h2>
+    <div class="result">{{ cover_letter }}</div>
+    {% endif %}
+</body>
+</html>

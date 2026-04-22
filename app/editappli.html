@@ -1,0 +1,19 @@
+<!DOCTYPE>
+<html>
+<head>
+<title>Edit Application</title>
+</head>
+<body>
+<header class="head" style="text-align:center">
+  <h1>JobApplication Portfolio</h1>
+</header>
+<hr>
+<a href="/logout/" class="lo">Logout</a>
+<br>
+<h2>Edit Your Application :</h2>
+<form method="POST">
+{% csrf_token %}
+{{ form.as_p }}
+<button type="submit">Save</button>
+</body>
+</html>

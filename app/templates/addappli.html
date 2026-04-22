@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Add Application :</title>
+
+<style>
+.lo{
+    position:absolute;
+    top:20px;
+    right:20px;
+    text-decoration:none;
+    padding:8px 15px;
+    background-color:#3498db;
+    color:white;
+    border-radius:5px;
+}
+</style>
+</head>
+<body>
+<header class="head">
+  <h1>JobApplication Portfolio</h1>
+</header>
+
+<hr>
+<a href='/profile/' class="lo">Profile</a>
+<br>
+<h2>Add New Application :</h2>
+<form method="POST">
+{% csrf_token %}
+{{ form.as_p }}
+<button type="submit">Save</button>
+</form>
+</body>
+</html>

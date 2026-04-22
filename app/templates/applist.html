@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Applications</title>
+
+<style>
+.lo{
+    position:absolute;
+    top:20px;
+    right:20px;
+    text-decoration:none;
+    padding:8px 15px;
+    background-color:#3498db;
+    color:white;
+    border-radius:5px;
+}
+table{
+	width:100%;
+	border-collapse:collapse;
+	
+}
+.ebtn{
+	background-color:#3498db;
+	color:white;
+    border-radius:3px;
+	padding:2px 6px;
+	text-decoration:none;
+}
+.search{
+	display:flex;
+	padding:5px;
+	gap:10px;
+	justify-content: center;
+	align-items:center;
+}
+.overdue{
+	background-color: #ffe0e0;
+    color: #c0392b;
+}
+</style>
+</head>
+<body>
+<header class="head" style="text-align:center">
+  <h1>JobApplication Portfolio</h1>
+</header>
+<hr>
+<a href='/profile/' class="lo">Profile</a>
+<h2>Your Applications :</h2>
+<br>
+<form method="GET">
+	<div class="search">
+    <input type="text" name="q" value="{{ query }}" placeholder="Search company or role...">
+    <select name="status">
+        <option value="">All</option>
+        <option value="Applied">Applied</option>
+        <option value="Interview">Interview</option>
+        <option value="Offer">Offer</option>
+        <option value="Rejected">Rejected</option>
+    </select>
+    <button type="submit">Search</button>
+	</div>
+</form>
+<br>
+<table border="1">
+<tr>
+<th>Company</th>
+<th>Role</th>
+<th>Status</th>
+<th>DueDate</th>
+<th>Edit</th>
+<th>Delete</th>
+</tr>
+{% for app in applis %}
+<tr class="{% if app.deadline and app.deadline < today %}overdue{% endif %}">
+<td>{{ app.comname }}</td>
+<td>{{ app.title }}</td>
+<td>{{ app.status }}</td>
+<td>{{ app.deadline }}</td>
+<td><a class="ebtn" href="{% url 'editappli' app.id %}">Edit</a></td>
+<td><form method="POST" action="{% url 'delappli' app.id %}">
+        {% csrf_token %}
+        <button type="submit" style="border:0px;color:white;background-color:#3498db;border-radius:2px;" onclick="return confirm('Are you sure?')">Delete</button>
+    </form>
+</td>
+</tr>
+{% endfor %}
+</table>
+</body>
+</html>

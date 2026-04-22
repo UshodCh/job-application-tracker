@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Dashboard</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+.but {
+text-decoration:none;
+}
+.btgrp{
+	display:flex;
+	margin-left:33.3%;
+	gap:15px;
+}
+button{
+width:180px;
+height:50px;
+border-radius:5px;
+border-color:white;
+border-width:0px;
+background-color:#3498db;
+}
+.chart{
+width: 400px;
+    height: 400px;
+    margin: auto;
+}
+.head {
+text-align:center
+}
+a{
+	color:white;
+}
+.lo{
+    position:absolute;
+    top:20px;
+    right:20px;
+    text-decoration:none;
+    padding:8px 15px;
+    background-color:#3498db;
+    color:white;
+    border-radius:5px;
+}
+.name{
+	text-transform:uppercase;
+}
+</style>
+</head>
+<body>
+<header class="head">
+  <h1>JobApplication Portfolio</h1>
+</header>
+<hr>
+<a href='/profile/' class="lo">Profile</a>
+
+<p style="font-size:26px;">Welcome back, {{ request.user.username|upper }} !</p>
+<p>Total Applications: {{ total }}</p>
+<ul>
+	<li>Applied		: {{ status_data.Applied }}</li>
+	<li>Interview	: {{ status_data.Interview }}</li>
+	<li>Offer		: {{ status_data.Offer }}</li>
+	<li>Rejected	: {{ status_data.Rejected }}</li>
+</ul>
+<h3>Application Status Overview</h3>
+<canvas class="chart" id="myChart" width="200" height="100"></canvas>
+
+<br>
+<div class="btgrp">
+<button><a class="but" href= "{% url 'applist' %}">Application List</a></button>
+
+<button><a class="but" href="{% url 'addappli' %}">Add New Application</a></button>
+</div>
+<script>
+
+const ctx = document.getElementById('myChart');
+
+new Chart(ctx, {
+    type: 'pie',
+    data: {
+        labels: ['Applied', 'Interview', 'Rejected', 'Offer'],
+        datasets: [{
+		data: [
+			{{ status_data.Applied }},
+			{{ status_data.Interview }},
+			{{ status_data.Rejected }},
+			{{ status_data.Offer }}
+		],
+		backgroundColor: [
+			'#3498db',  // Applied - blue
+			'#f39c12',  // Interview - orange
+			'#e74c3c',  // Rejected - red
+			'#2ecc71'   // Offer - green
+		]
+	}]
+    }
+});
+
+</script>
+</body>
+</html>

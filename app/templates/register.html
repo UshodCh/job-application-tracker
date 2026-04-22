@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>
+Register User Page
+</title>
+
+<style>
+.login{
+text-decoration:none;
+color:grey;
+}
+.login:hover{
+color:black;
+}
+.register {
+ 
+  justify-content: center;
+ 
+}
+
+.head {
+text-align:center
+}
+
+
+.login-btn{
+    position:absolute;
+    top:20px;
+    right:20px;
+    text-decoration:none;
+    padding:8px 15px;
+    background-color:#3498db;
+    color:white;
+    border-radius:5px;
+}
+
+
+</style>
+</head>
+<body>
+<header class="head">
+  <h1>JobApplication Portfolio</h1>
+  <a href="/login/" class="login-btn">Login</a>
+</header>
+<hr>
+
+<br>
+<h2>Register</h2>
+<form method="POST" class="register">
+{% csrf_token %}
+{{ form.as_p }}
+ {% if form.errors %}
+        <div style="color: red;">
+            {{ form.errors }}
+        </div>
+    {% endif %}
+<button type="submit">Sign Up</button>
+</form>
+</body>
+</html>
