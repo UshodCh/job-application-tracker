@@ -26,7 +26,14 @@ SECRET_KEY = 'django-insecure-9ee_zj4%u3-j-_(!s(89f09h3-ezpq9_dxx39c6oh!loo^fyri
 DEBUG = True
 
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost').split(',')
+import dj_database_url
 
+DATABASES = {
+    'default': dj_database_url.config(
+        default='sqlite:///db.sqlite3',
+        conn_max_age=600
+    )
+}
 
 # Application definition
 
