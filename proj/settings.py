@@ -9,7 +9,8 @@ https://docs.djangoproject.com/en/6.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
-
+import os
+import dj_database_url
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -26,7 +27,7 @@ SECRET_KEY = 'django-insecure-9ee_zj4%u3-j-_(!s(89f09h3-ezpq9_dxx39c6oh!loo^fyri
 DEBUG = True
 
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost').split(',')
-import dj_database_url
+
 
 DATABASES = {
     'default': dj_database_url.config(
@@ -126,7 +127,7 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-import os
+
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
