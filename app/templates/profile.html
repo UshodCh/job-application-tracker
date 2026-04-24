@@ -1,31 +1,147 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>My Profile</title>
-    <style>
-        body { font-family: Arial; max-width: 600px; margin: 40px auto; padding: 20px; }
-        input, textarea { width: 100%; padding: 10px; margin: 10px 0; border-radius: 5px; border: 1px solid #ccc; }
-        button { background-color: #3498db; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; }
-		.lo{
-		position:absolute;
-		top:20px;
-		right:20px;
-		text-decoration:none;
-		padding:8px 15px;
-		background-color:#3498db;
-		color:white;
-		border-radius:5px; }
+<title>Profile</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Segoe UI', sans-serif; background: #f4f6f9; color: #1a1a2e; }
+
+.navbar {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 32px; background: white;
+    border-bottom: 1px solid #e8ecf0; position: sticky; top: 0; z-index: 100;
 }
-    </style>
-	
+.logo { font-size: 18px; font-weight: 700; color: #1a1a2e; }
+.logo span { color: #3498db; }
+.nav-links { display: flex; gap: 8px; align-items: center; }
+.nav-btn {
+    font-size: 13px; padding: 7px 16px; border-radius: 8px;
+    border: 1px solid #e8ecf0; background: transparent;
+    color: #666; cursor: pointer; text-decoration: none; transition: all 0.2s;
+}
+.nav-btn:hover { background: #f4f6f9; color: #1a1a2e; }
+.nav-btn.active { background: #3498db; color: white; border-color: #3498db; }
+.nav-btn.profile-btn { background: #1a1a2e; color: white; border-color: #1a1a2e; }
+
+.main { padding: 28px 32px; max-width: 700px; margin: 0 auto; }
+
+.profile-header {
+    display: flex; align-items: center; gap: 20px;
+    background: white; border-radius: 12px;
+    border: 1px solid #e8ecf0; padding: 24px 28px;
+    margin-bottom: 20px;
+}
+.avatar {
+    width: 64px; height: 64px; border-radius: 50%;
+    background: #1a1a2e; display: flex; align-items: center;
+    justify-content: center; font-size: 24px; font-weight: 700;
+    color: #3498db; flex-shrink: 0;
+}
+.profile-info h2 { font-size: 18px; font-weight: 700; color: #1a1a2e; }
+.profile-info p { font-size: 13px; color: #888; margin-top: 4px; }
+
+.form-card {
+    background: white; border-radius: 12px;
+    border: 1px solid #e8ecf0; padding: 28px;
+    margin-bottom: 16px;
+}
+.form-card-title {
+    font-size: 14px; font-weight: 600; color: #1a1a2e;
+    margin-bottom: 20px; padding-bottom: 12px;
+    border-bottom: 1px solid #f0f0f0;
+}
+.form-group { margin-bottom: 16px; }
+label {
+    display: block; font-size: 12px; font-weight: 600;
+    color: #555; margin-bottom: 6px;
+    text-transform: uppercase; letter-spacing: 0.5px;
+}
+input, textarea {
+    width: 100%; padding: 10px 14px; border: 1px solid #e8ecf0;
+    border-radius: 8px; font-size: 14px; outline: none;
+    transition: border 0.2s; color: #1a1a2e;
+    font-family: 'Segoe UI', sans-serif;
+}
+input:focus, textarea:focus { border-color: #3498db; }
+textarea { resize: vertical; min-height: 100px; }
+
+.form-actions { display: flex; gap: 12px; margin-top: 8px; }
+.submit-btn {
+    flex: 1; padding: 12px; background: #3498db; color: white;
+    border: none; border-radius: 8px; font-size: 14px;
+    font-weight: 600; cursor: pointer; transition: background 0.2s;
+}
+.submit-btn:hover { background: #2980b9; }
+
+.danger-card {
+    background: white; border-radius: 12px;
+    border: 1px solid #fee8e8; padding: 20px 28px;
+    display: flex; align-items: center; justify-content: space-between;
+}
+.danger-info h3 { font-size: 14px; font-weight: 600; color: #1a1a2e; }
+.danger-info p { font-size: 13px; color: #888; margin-top: 4px; }
+.logout-btn {
+    padding: 9px 20px; background: white; color: #A32D2D;
+    border: 1px solid #fee8e8; border-radius: 8px;
+    font-size: 13px; font-weight: 600; cursor: pointer;
+    text-decoration: none; transition: all 0.2s;
+}
+.logout-btn:hover { background: #fcebeb; }
+</style>
 </head>
 <body>
-	<a href="/logout/" class="lo">Logout</a>
-    <h1>My Profile 👤</h1>
-    <form method="POST">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Save Profile</button>
-    </form>
+
+<nav class="navbar">
+    <div class="logo">Job<span>Track</span></div>
+    <div class="nav-links">
+        <a href="{% url 'dashboard' %}" class="nav-btn">Dashboard</a>
+        <a href="{% url 'applist' %}" class="nav-btn">Applications</a>
+        <a href="{% url 'coverletter' %}" class="nav-btn">Cover Letter</a>
+        <a href="{% url 'profile' %}" class="nav-btn profile-btn">{{ request.user.username }}</a>
+    </div>
+</nav>
+
+<div class="main">
+
+    <div class="profile-header">
+        <div class="avatar">{{ request.user.username|first|upper }}</div>
+        <div class="profile-info">
+            <h2>{{ request.user.username }}</h2>
+            <p>{{ request.user.email|default:"No email set" }}</p>
+        </div>
+    </div>
+
+    <div class="form-card">
+        <div class="form-card-title">Profile Information</div>
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                <label>Full Name</label>
+                <input type="text" name="full_name" value="{{ form.full_name.value|default:'' }}" placeholder="e.g. Ushoddarsha Chegireddy">
+            </div>
+            <div class="form-group">
+                <label>Skills</label>
+                <input type="text" name="skills" value="{{ form.skills.value|default:'' }}" placeholder="e.g. Python, Django, React, DSA">
+            </div>
+            <div class="form-group">
+                <label>Bio</label>
+                <textarea name="bio" placeholder="Tell us about yourself...">{{ form.bio.value|default:'' }}</textarea>
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="submit-btn">Save Profile</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="danger-card">
+        <div class="danger-info">
+            <h3>Sign out</h3>
+            <p>Sign out of your JobTrack account</p>
+        </div>
+        <a href="{% url 'log_out' %}" class="logout-btn">Logout</a>
+    </div>
+
+</div>
+
 </body>
 </html>

@@ -1,34 +1,140 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Add Application :</title>
-
+<title>Add Application</title>
 <style>
-.lo{
-    position:absolute;
-    top:20px;
-    right:20px;
-    text-decoration:none;
-    padding:8px 15px;
-    background-color:#3498db;
-    color:white;
-    border-radius:5px;
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Segoe UI', sans-serif; background: #f4f6f9; color: #1a1a2e; }
+
+.navbar {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 32px; background: white;
+    border-bottom: 1px solid #e8ecf0; position: sticky; top: 0; z-index: 100;
 }
+.logo { font-size: 18px; font-weight: 700; color: #1a1a2e; }
+.logo span { color: #3498db; }
+.nav-links { display: flex; gap: 8px; align-items: center; }
+.nav-btn {
+    font-size: 13px; padding: 7px 16px; border-radius: 8px;
+    border: 1px solid #e8ecf0; background: transparent;
+    color: #666; cursor: pointer; text-decoration: none; transition: all 0.2s;
+}
+.nav-btn:hover { background: #f4f6f9; color: #1a1a2e; }
+.nav-btn.active { background: #3498db; color: white; border-color: #3498db; }
+.nav-btn.profile-btn { background: #1a1a2e; color: white; border-color: #1a1a2e; }
+
+.main { padding: 28px 32px; max-width: 700px; margin: 0 auto; }
+
+.page-header { margin-bottom: 24px; }
+.page-header h2 { font-size: 20px; font-weight: 700; color: #1a1a2e; }
+.page-header p { font-size: 13px; color: #888; margin-top: 4px; }
+
+.form-card {
+    background: white; border-radius: 12px;
+    border: 1px solid #e8ecf0; padding: 28px;
+}
+
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.form-group { margin-bottom: 16px; }
+.form-group.full { grid-column: 1 / -1; }
+
+label {
+    display: block; font-size: 12px; font-weight: 600;
+    color: #555; margin-bottom: 6px;
+    text-transform: uppercase; letter-spacing: 0.5px;
+}
+input, select, textarea {
+    width: 100%; padding: 10px 14px; border: 1px solid #e8ecf0;
+    border-radius: 8px; font-size: 14px; outline: none;
+    transition: border 0.2s; color: #1a1a2e;
+    font-family: 'Segoe UI', sans-serif;
+}
+input:focus, select:focus, textarea:focus { border-color: #3498db; }
+textarea { resize: vertical; min-height: 100px; }
+
+.form-actions { display: flex; gap: 12px; margin-top: 8px; }
+.submit-btn {
+    flex: 1; padding: 12px; background: #3498db; color: white;
+    border: none; border-radius: 8px; font-size: 14px;
+    font-weight: 600; cursor: pointer; transition: background 0.2s;
+}
+.submit-btn:hover { background: #2980b9; }
+.cancel-btn {
+    padding: 12px 24px; background: white; color: #666;
+    border: 1px solid #e8ecf0; border-radius: 8px;
+    font-size: 14px; cursor: pointer; text-decoration: none;
+    transition: all 0.2s;
+}
+.cancel-btn:hover { background: #f4f6f9; }
 </style>
 </head>
 <body>
-<header class="head">
-  <h1>JobApplication Portfolio</h1>
-</header>
 
-<hr>
-<a href='/profile/' class="lo">Profile</a>
-<br>
-<h2>Add New Application :</h2>
-<form method="POST">
-{% csrf_token %}
-{{ form.as_p }}
-<button type="submit">Save</button>
-</form>
+<nav class="navbar">
+    <div class="logo">Job<span>Track</span></div>
+    <div class="nav-links">
+        <a href="{% url 'dashboard' %}" class="nav-btn">Dashboard</a>
+        <a href="{% url 'applist' %}" class="nav-btn active">Applications</a>
+        <a href="{% url 'coverletter' %}" class="nav-btn">Cover Letter</a>
+        <a href="{% url 'profile' %}" class="nav-btn profile-btn">{{ request.user.username }}</a>
+    </div>
+</nav>
+
+<div class="main">
+    <div class="page-header">
+        <h2>Add New Application</h2>
+        <p>Track a new job application</p>
+    </div>
+
+    <div class="form-card">
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Company Name</label>
+                    <input type="text" name="comname" placeholder="e.g. Google" required>
+                </div>
+                <div class="form-group">
+                    <label>Job Title</label>
+                    <input type="text" name="title" placeholder="e.g. Software Engineer" required>
+                </div>
+                <div class="form-group">
+                    <label>Location</label>
+                    <input type="text" name="location" placeholder="e.g. Bangalore, India">
+                </div>
+                <div class="form-group">
+                    <label>Status</label>
+                    <select name="status">
+                        <option value="Applied">Applied</option>
+                        <option value="Interview">Interview</option>
+                        <option value="Offer">Offer</option>
+                        <option value="Rejected">Rejected</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Application Date</label>
+                    <input type="date" name="apldate" required>
+                </div>
+                <div class="form-group">
+                    <label>Deadline</label>
+                    <input type="date" name="deadline">
+                </div>
+                <div class="form-group full">
+                    <label>Job Link</label>
+                    <input type="url" name="link" placeholder="https://...">
+                </div>
+                <div class="form-group full">
+                    <label>Notes</label>
+                    <textarea name="notes" placeholder="Any notes about this application..."></textarea>
+                </div>
+            </div>
+            <div class="form-actions">
+                <a href="{% url 'applist' %}" class="cancel-btn">Cancel</a>
+                <button type="submit" class="submit-btn">Save Application</button>
+            </div>
+        </form>
+    </div>
+</div>
+
 </body>
 </html>

@@ -1,32 +1,165 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Cover Letter Generator</title>
-    <style>
-        body { font-family: Arial; max-width: 800px; margin: 40px auto; padding: 20px; }
-        textarea { width: 100%; padding: 10px; margin: 10px 0; border-radius: 5px; border: 1px solid #ccc; }
-        button { background-color: #3498db; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; }
-        .result { background-color: #f0f0f0; padding: 20px; border-radius: 5px; margin-top: 20px; white-space: pre-wrap; }
-        .profile-info { background-color: #eaf4ff; padding: 15px; border-radius: 5px; margin-bottom: 20px; }
-    </style>
+<title>Cover Letter Generator</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Segoe UI', sans-serif; background: #f4f6f9; color: #1a1a2e; }
+
+.navbar {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 32px; background: white;
+    border-bottom: 1px solid #e8ecf0; position: sticky; top: 0; z-index: 100;
+}
+.logo { font-size: 18px; font-weight: 700; color: #1a1a2e; }
+.logo span { color: #3498db; }
+.nav-links { display: flex; gap: 8px; align-items: center; }
+.nav-btn {
+    font-size: 13px; padding: 7px 16px; border-radius: 8px;
+    border: 1px solid #e8ecf0; background: transparent;
+    color: #666; cursor: pointer; text-decoration: none; transition: all 0.2s;
+}
+.nav-btn:hover { background: #f4f6f9; color: #1a1a2e; }
+.nav-btn.active { background: #3498db; color: white; border-color: #3498db; }
+.nav-btn.profile-btn { background: #1a1a2e; color: white; border-color: #1a1a2e; }
+
+.main { padding: 28px 32px; max-width: 900px; margin: 0 auto; }
+
+.page-header { margin-bottom: 24px; }
+.page-header h2 { font-size: 20px; font-weight: 700; color: #1a1a2e; }
+.page-header p { font-size: 13px; color: #888; margin-top: 4px; }
+
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+.card {
+    background: white; border-radius: 12px;
+    border: 1px solid #e8ecf0; padding: 24px;
+}
+.card-title {
+    font-size: 14px; font-weight: 600; color: #1a1a2e;
+    margin-bottom: 16px; padding-bottom: 12px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.profile-info-box {
+    background: #f8fafc; border-radius: 8px;
+    border: 1px solid #e8ecf0; padding: 14px;
+    margin-bottom: 16px;
+}
+.profile-info-row { display: flex; justify-content: space-between; align-items: flex-start; }
+.profile-info-box p { font-size: 13px; color: #555; margin-bottom: 6px; }
+.profile-info-box p span { font-weight: 600; color: #1a1a2e; }
+.edit-profile-link {
+    font-size: 12px; color: #3498db; text-decoration: none;
+    font-weight: 500; white-space: nowrap;
+}
+.edit-profile-link:hover { text-decoration: underline; }
+
+label {
+    display: block; font-size: 12px; font-weight: 600;
+    color: #555; margin-bottom: 6px;
+    text-transform: uppercase; letter-spacing: 0.5px;
+}
+textarea {
+    width: 100%; padding: 10px 14px; border: 1px solid #e8ecf0;
+    border-radius: 8px; font-size: 14px; outline: none;
+    transition: border 0.2s; color: #1a1a2e;
+    font-family: 'Segoe UI', sans-serif;
+    resize: vertical; min-height: 220px;
+}
+textarea:focus { border-color: #3498db; }
+
+.generate-btn {
+    width: 100%; padding: 12px; background: #3498db; color: white;
+    border: none; border-radius: 8px; font-size: 14px;
+    font-weight: 600; cursor: pointer; margin-top: 12px;
+    transition: background 0.2s; display: flex;
+    align-items: center; justify-content: center; gap: 8px;
+}
+.generate-btn:hover { background: #2980b9; }
+
+.result-box {
+    background: #f8fafc; border-radius: 8px;
+    border: 1px solid #e8ecf0; padding: 16px;
+    font-size: 13px; line-height: 1.8; color: #1a1a2e;
+    white-space: pre-wrap; min-height: 300px;
+}
+
+.empty-result {
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    min-height: 300px; color: #888; text-align: center;
+}
+.empty-result .icon { font-size: 32px; margin-bottom: 12px; }
+.empty-result p { font-size: 13px; }
+
+.copy-btn {
+    width: 100%; padding: 10px; background: white; color: #1a1a2e;
+    border: 1px solid #e8ecf0; border-radius: 8px; font-size: 13px;
+    font-weight: 500; cursor: pointer; margin-top: 12px;
+    transition: all 0.2s;
+}
+.copy-btn:hover { background: #f4f6f9; border-color: #3498db; color: #3498db; }
+</style>
 </head>
 <body>
-    <h1>AI Cover Letter Generator ✨</h1>
 
-    <div class="profile-info">
-        <strong>Generating for:</strong> {{ profile.full_name }}<br>
-        <strong>Skills:</strong> {{ profile.skills }}
-        <a href="{% url 'profile' %}" style="float:right;">Edit Profile</a>
+<nav class="navbar">
+    <div class="logo">Job<span>Track</span></div>
+    <div class="nav-links">
+        <a href="{% url 'dashboard' %}" class="nav-btn">Dashboard</a>
+        <a href="{% url 'applist' %}" class="nav-btn">Applications</a>
+        <a href="{% url 'coverletter' %}" class="nav-btn active">Cover Letter</a>
+        <a href="{% url 'profile' %}" class="nav-btn profile-btn">{{ request.user.username }}</a>
     </div>
-    <form method="POST">
-        {% csrf_token %}
-        <label>Paste Job Description:</label>
-        <textarea name="job_description" rows="8" placeholder="Paste the full job description here..." required></textarea>
-        <button type="submit">Generate Cover Letter ✨</button>
-    </form>
-    {% if cover_letter %}
-    <h2>Your Cover Letter:</h2>
-    <div class="result">{{ cover_letter }}</div>
-    {% endif %}
+</nav>
+
+<div class="main">
+    <div class="page-header">
+        <h2>AI Cover Letter Generator ✨</h2>
+        <p>Paste a job description and get a personalized cover letter instantly</p>
+    </div>
+
+    <div class="grid">
+        <div class="card">
+            <div class="card-title">Your Details</div>
+
+            <div class="profile-info-box">
+                <div class="profile-info-row">
+                    <div>
+                        <p>Name: <span>{{ profile.full_name }}</span></p>
+                        <p>Skills: <span>{{ profile.skills }}</span></p>
+                    </div>
+                    <a href="{% url 'profile' %}" class="edit-profile-link">Edit Profile</a>
+                </div>
+            </div>
+
+            <form method="POST">
+                {% csrf_token %}
+                <label>Job Description</label>
+                <textarea name="job_description" placeholder="Paste the full job description here..." required></textarea>
+                <button type="submit" class="generate-btn">
+                    ✨ Generate Cover Letter
+                </button>
+            </form>
+        </div>
+
+        <div class="card">
+            <div class="card-title">Generated Cover Letter</div>
+            {% if cover_letter %}
+                <div class="result-box">{{ cover_letter }}</div>
+                <button class="copy-btn" onclick="navigator.clipboard.writeText(`{{ cover_letter }}`); this.textContent='Copied!';">
+                    Copy to Clipboard
+                </button>
+            {% else %}
+                <div class="empty-result">
+                    <div class="icon">✨</div>
+                    <p>Your generated cover letter will appear here</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
 </body>
 </html>
