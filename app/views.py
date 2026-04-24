@@ -7,12 +7,11 @@ from datetime import date
 from .models import jobappli,Profile
 from .forms import jobappliform,ProfileForm
 from google import genai
-import google.generativeai as genai
 from dotenv import load_dotenv
 import os
 
 load_dotenv()
-genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
+client = genai.Client(api_key=os.getenv("AIzaSyDQC3rOu1zTj1PkzBeG0f345KE_qh0h_Y8"))
 # Create your views here.
 def register(request):
     form=UserCreationForm()
