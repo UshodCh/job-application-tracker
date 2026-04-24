@@ -6,9 +6,11 @@ from django.db.models import Count,Q
 from datetime import date
 from .models import jobappli,Profile
 from .forms import jobappliform,ProfileForm
+from google import genai
 import google.generativeai as genai
 from dotenv import load_dotenv
 import os
+
 load_dotenv()
 genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 # Create your views here.
@@ -113,9 +115,6 @@ def coverletter(request):
     if request.method == "POST":
         job_description = request.POST.get("job_description", "")
 
-        genai.configure(api_key="AIzaSyDQC3rOu1zTj1PkzBeG0f345KE_qh0h_Y8")
-        model = genai.GenerativeModel("gemini-1.5-flash")
-
         prompt = f"""
         Write a professional cover letter for the following job description:
         {job_description}
@@ -126,9 +125,14 @@ def coverletter(request):
 
         Make it formal, concise and compelling. 3 paragraphs max.
         """
-
-        response = model.generate_content(prompt)
+        client = genai.Client(api_key=os.getenv("AIzaSyDQC3rOu1zTj1PkzBeG0f345KE_qh0h_Y8"))
+        response = client.models.generate_content(
+            model="gemini-2.0-flash",
+            contents=prompt
+        )
         cover_letter = response.text
+
+       
 
     return render(request, "coverletter.html", {
         "cover_letter": cover_letter,
