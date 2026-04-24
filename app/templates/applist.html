@@ -2,88 +2,202 @@
 <html>
 <head>
 <title>Applications</title>
-
 <style>
-.lo{
-    position:absolute;
-    top:20px;
-    right:20px;
-    text-decoration:none;
-    padding:8px 15px;
-    background-color:#3498db;
-    color:white;
-    border-radius:5px;
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Segoe UI', sans-serif; background: #f4f6f9; color: #1a1a2e; }
+
+.navbar {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 32px; background: white;
+    border-bottom: 1px solid #e8ecf0; position: sticky; top: 0; z-index: 100;
 }
-table{
-	width:100%;
-	border-collapse:collapse;
-	
+.logo { font-size: 18px; font-weight: 700; color: #1a1a2e; }
+.logo span { color: #3498db; }
+.nav-links { display: flex; gap: 8px; align-items: center; }
+.nav-btn {
+    font-size: 13px; padding: 7px 16px; border-radius: 8px;
+    border: 1px solid #e8ecf0; background: transparent;
+    color: #666; cursor: pointer; text-decoration: none;
+    transition: all 0.2s;
 }
-.ebtn{
-	background-color:#3498db;
-	color:white;
-    border-radius:3px;
-	padding:2px 6px;
-	text-decoration:none;
+.nav-btn:hover { background: #f4f6f9; color: #1a1a2e; }
+.nav-btn.active { background: #3498db; color: white; border-color: #3498db; }
+.nav-btn.profile-btn { background: #1a1a2e; color: white; border-color: #1a1a2e; }
+
+.main { padding: 28px 32px; max-width: 1200px; margin: 0 auto; }
+
+.page-header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 20px;
 }
-.search{
-	display:flex;
-	padding:5px;
-	gap:10px;
-	justify-content: center;
-	align-items:center;
+.page-header h2 { font-size: 20px; font-weight: 700; color: #1a1a2e; }
+.add-btn {
+    padding: 9px 18px; background: #3498db; color: white;
+    border: none; border-radius: 8px; font-size: 13px;
+    cursor: pointer; text-decoration: none; font-weight: 500;
+    transition: background 0.2s;
 }
-.overdue{
-	background-color: #ffe0e0;
-    color: #c0392b;
+.add-btn:hover { background: #2980b9; }
+
+.search-bar {
+    background: white; border-radius: 12px; border: 1px solid #e8ecf0;
+    padding: 16px 20px; margin-bottom: 16px;
+    display: flex; gap: 12px; align-items: center;
 }
+.search-bar input {
+    flex: 1; border: 1px solid #e8ecf0; border-radius: 8px;
+    padding: 8px 14px; font-size: 13px; outline: none;
+    transition: border 0.2s;
+}
+.search-bar input:focus { border-color: #3498db; }
+.search-bar select {
+    border: 1px solid #e8ecf0; border-radius: 8px;
+    padding: 8px 14px; font-size: 13px; outline: none;
+    background: white; cursor: pointer;
+}
+.search-bar button {
+    padding: 8px 18px; background: #3498db; color: white;
+    border: none; border-radius: 8px; font-size: 13px;
+    cursor: pointer; font-weight: 500;
+}
+
+.table-card {
+    background: white; border-radius: 12px;
+    border: 1px solid #e8ecf0; overflow: hidden;
+}
+table { width: 100%; border-collapse: collapse; }
+thead { background: #f8fafc; }
+th {
+    padding: 12px 20px; text-align: left; font-size: 12px;
+    font-weight: 600; color: #888; text-transform: uppercase;
+    letter-spacing: 0.5px; border-bottom: 1px solid #e8ecf0;
+}
+td {
+    padding: 14px 20px; font-size: 13px; color: #1a1a2e;
+    border-bottom: 1px solid #f4f6f9;
+}
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: #f8fafc; }
+tr.overdue td { background: #fff5f5; }
+tr.overdue:hover td { background: #fee8e8; }
+
+.company-cell { font-weight: 600; color: #1a1a2e; }
+.role-cell { color: #666; }
+
+.status-badge {
+    display: inline-block; font-size: 11px; padding: 3px 10px;
+    border-radius: 99px; font-weight: 500;
+}
+.status-Applied { background: #e6f1fb; color: #185FA5; }
+.status-Interview { background: #faeeda; color: #854F0B; }
+.status-Offer { background: #eaf3de; color: #3B6D11; }
+.status-Rejected { background: #fcebeb; color: #A32D2D; }
+
+.overdue-badge {
+    display: inline-block; font-size: 10px; padding: 2px 8px;
+    border-radius: 99px; background: #fcebeb; color: #A32D2D;
+    margin-left: 6px; font-weight: 500;
+}
+
+.action-btns { display: flex; gap: 8px; }
+.edit-btn {
+    padding: 5px 14px; border-radius: 6px; font-size: 12px;
+    border: 1px solid #e8ecf0; background: white; color: #1a1a2e;
+    cursor: pointer; text-decoration: none; transition: all 0.2s;
+}
+.edit-btn:hover { border-color: #3498db; color: #3498db; }
+.del-btn {
+    padding: 5px 14px; border-radius: 6px; font-size: 12px;
+    border: 1px solid #fee8e8; background: white; color: #A32D2D;
+    cursor: pointer; transition: all 0.2s;
+}
+.del-btn:hover { background: #fcebeb; }
+.del-btn form { margin: 0; }
+
+.empty-state {
+    text-align: center; padding: 60px 20px; color: #888;
+}
+.empty-state h3 { font-size: 16px; margin-bottom: 8px; color: #1a1a2e; }
+.empty-state p { font-size: 13px; }
 </style>
 </head>
 <body>
-<header class="head" style="text-align:center">
-  <h1>JobApplication Portfolio</h1>
-</header>
-<hr>
-<a href='/profile/' class="lo">Profile</a>
-<h2>Your Applications :</h2>
-<br>
-<form method="GET">
-	<div class="search">
-    <input type="text" name="q" value="{{ query }}" placeholder="Search company or role...">
-    <select name="status">
-        <option value="">All</option>
-        <option value="Applied">Applied</option>
-        <option value="Interview">Interview</option>
-        <option value="Offer">Offer</option>
-        <option value="Rejected">Rejected</option>
-    </select>
-    <button type="submit">Search</button>
-	</div>
-</form>
-<br>
-<table border="1">
-<tr>
-<th>Company</th>
-<th>Role</th>
-<th>Status</th>
-<th>DueDate</th>
-<th>Edit</th>
-<th>Delete</th>
-</tr>
-{% for app in applis %}
-<tr class="{% if app.deadline and app.deadline < today %}overdue{% endif %}">
-<td>{{ app.comname }}</td>
-<td>{{ app.title }}</td>
-<td>{{ app.status }}</td>
-<td>{{ app.deadline }}</td>
-<td><a class="ebtn" href="{% url 'editappli' app.id %}">Edit</a></td>
-<td><form method="POST" action="{% url 'delappli' app.id %}">
-        {% csrf_token %}
-        <button type="submit" style="border:0px;color:white;background-color:#3498db;border-radius:2px;" onclick="return confirm('Are you sure?')">Delete</button>
-    </form>
-</td>
-</tr>
-{% endfor %}
-</table>
+
+<nav class="navbar">
+    <div class="logo">Job<span>Track</span></div>
+    <div class="nav-links">
+        <a href="{% url 'dashboard' %}" class="nav-btn">Dashboard</a>
+        <a href="{% url 'applist' %}" class="nav-btn active">Applications</a>
+        <a href="{% url 'coverletter' %}" class="nav-btn">Cover Letter</a>
+        <a href="{% url 'profile' %}" class="nav-btn profile-btn">{{ request.user.username }}</a>
+    </div>
+</nav>
+
+<div class="main">
+    <div class="page-header">
+        <h2>Your Applications</h2>
+        <a href="{% url 'addappli' %}" class="add-btn">+ Add Application</a>
+    </div>
+
+    <div class="search-bar">
+        <form method="GET" style="display:flex; gap:12px; flex:1; align-items:center;">
+            <input type="text" name="q" value="{{ query }}" placeholder="Search company or role...">
+            <select name="status">
+                <option value="">All Status</option>
+                <option value="Applied" {% if status == 'Applied' %}selected{% endif %}>Applied</option>
+                <option value="Interview" {% if status == 'Interview' %}selected{% endif %}>Interview</option>
+                <option value="Offer" {% if status == 'Offer' %}selected{% endif %}>Offer</option>
+                <option value="Rejected" {% if status == 'Rejected' %}selected{% endif %}>Rejected</option>
+            </select>
+            <button type="submit">Search</button>
+        </form>
+    </div>
+
+    <div class="table-card">
+        {% if applis %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Company</th>
+                    <th>Role</th>
+                    <th>Status</th>
+                    <th>Deadline</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for app in applis %}
+                <tr {% if app.deadline and app.deadline < today %}class="overdue"{% endif %}>
+                    <td class="company-cell">{{ app.comname }}</td>
+                    <td class="role-cell">{{ app.title }}</td>
+                    <td><span class="status-badge status-{{ app.status }}">{{ app.status }}</span></td>
+                    <td>
+                        {{ app.deadline|default:"—" }}
+                        {% if app.deadline and app.deadline < today %}
+                        <span class="overdue-badge">Overdue</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <div class="action-btns">
+                            <a href="{% url 'editappli' app.id %}" class="edit-btn">Edit</a>
+                            <form method="POST" action="{% url 'delappli' app.id %}" style="margin:0;">
+                                {% csrf_token %}
+                                <button type="submit" class="del-btn" onclick="return confirm('Are you sure?')">Delete</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <div class="empty-state">
+            <h3>No applications found</h3>
+            <p>Add your first application or try a different search</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
 </body>
 </html>
