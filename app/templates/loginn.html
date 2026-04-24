@@ -1,29 +1,96 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Login User Page</title>
-
+<title>Login</title>
 <style>
-.head {
-text-align:center
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Segoe UI', sans-serif; background: #f4f6f9; color: #1a1a2e; min-height: 100vh; display: flex; align-items: center; justify-content: center; }
+
+.container {
+    display: grid; grid-template-columns: 1fr 1fr;
+    width: 900px; background: white;
+    border-radius: 16px; border: 1px solid #e8ecf0;
+    overflow: hidden; box-shadow: 0 4px 24px rgba(0,0,0,0.06);
 }
 
+.left {
+    background: #1a1a2e; padding: 48px;
+    display: flex; flex-direction: column; justify-content: space-between;
+}
+.left-logo { font-size: 22px; font-weight: 700; color: white; }
+.left-logo span { color: #3498db; }
+.left-tagline { margin-top: 40px; }
+.left-tagline h2 { font-size: 26px; font-weight: 700; color: white; line-height: 1.4; }
+.left-tagline p { font-size: 13px; color: #888; margin-top: 10px; }
+.features { margin-top: 32px; display: flex; flex-direction: column; gap: 12px; }
+.feature { display: flex; align-items: center; gap: 10px; font-size: 13px; color: #aaa; }
+.feature-dot { width: 6px; height: 6px; border-radius: 50%; background: #3498db; flex-shrink: 0; }
+.left-footer { font-size: 12px; color: #555; }
+
+.right { padding: 48px; display: flex; flex-direction: column; justify-content: center; }
+.right h2 { font-size: 22px; font-weight: 700; color: #1a1a2e; margin-bottom: 6px; }
+.right p { font-size: 13px; color: #888; margin-bottom: 28px; }
+
+.form-group { margin-bottom: 16px; }
+label { display: block; font-size: 12px; font-weight: 600; color: #555; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+input {
+    width: 100%; padding: 10px 14px; border: 1px solid #e8ecf0;
+    border-radius: 8px; font-size: 14px; outline: none;
+    transition: border 0.2s; color: #1a1a2e;
+}
+input:focus { border-color: #3498db; }
+
+.login-btn {
+    width: 100%; padding: 12px; background: #3498db; color: white;
+    border: none; border-radius: 8px; font-size: 14px; font-weight: 600;
+    cursor: pointer; margin-top: 8px; transition: background 0.2s;
+}
+.login-btn:hover { background: #2980b9; }
+
+.register-link { text-align: center; margin-top: 20px; font-size: 13px; color: #888; }
+.register-link a { color: #3498db; text-decoration: none; font-weight: 600; }
 </style>
 </head>
 <body>
-<header class="head">
-  <h1>JobApplication Portfolio</h1>
-  
-</header>
-<hr>
-<br>
 
-<form method="POST">
-<h2>Login</h2>
-{% csrf_token %}
-<label>Username:</label><input type="text" name="username" placeholder="Username" required><br><br>
-<label>Password :</label><input type="password" name="password" placeholder="Password" required><br><br>
-<button type="submit">Login</button>
-</form>
+<div class="container">
+    <div class="left">
+        <div class="left-logo">Job<span>Track</span></div>
+        <div class="left-tagline">
+            <h2>Track your job search journey</h2>
+            <p>Stay organized and land your dream job faster</p>
+            <div class="features">
+                <div class="feature"><div class="feature-dot"></div>Track all your applications in one place</div>
+                <div class="feature"><div class="feature-dot"></div>AI powered cover letter generator</div>
+                <div class="feature"><div class="feature-dot"></div>Never miss a deadline again</div>
+                <div class="feature"><div class="feature-dot"></div>Visual analytics dashboard</div>
+            </div>
+        </div>
+        <div class="left-footer">JobTrack — Built for job seekers</div>
+    </div>
+
+    <div class="right">
+        <h2>Welcome back!</h2>
+        <p>Sign in to your account to continue</p>
+
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                <label>Username</label>
+                <input type="text" name="username" placeholder="Enter your username" required>
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" name="password" placeholder="Enter your password" required>
+            </div>
+            <button type="submit" class="login-btn">Sign In</button>
+        </form>
+
+        <div class="register-link">
+            Don't have an account? <a href="{% url 'register' %}">Create one</a>
+        </div>
+    </div>
+</div>
+
 </body>
 </html>
