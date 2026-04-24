@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-9ee_zj4%u3-j-_(!s(89f09h3-ezpq9_dxx39c6oh!loo^fyri
 DEBUG = True
 
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost').split(',')
-
+CSRF_TRUSTED_ORIGINS = ['https://web-production-8fea4.up.railway.app']
 
 DATABASES = {
     'default': dj_database_url.config(
