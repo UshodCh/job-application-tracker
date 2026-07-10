@@ -1,9 +1,11 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth import login, logout, authenticate
-from django.contrib.auth.forms import UserCreationForm
+from .forms import jobappliform, ProfileForm, CustomRegisterForm
 from django.contrib.auth.decorators import login_required
+from django.core.mail import send_mail
 from django.db.models import Count,Q
 from datetime import date
+from django.core.mail import send_mail
 from .models import jobappli,Profile
 from .forms import jobappliform,ProfileForm
 from google import genai
@@ -14,11 +16,32 @@ load_dotenv()
 client = genai.Client(api_key=os.getenv("AIzaSyDQC3rOu1zTj1PkzBeG0f345KE_qh0h_Y8"))
 # Create your views here.
 def register(request):
-    form=UserCreationForm()
+    form=CustomRegisterForm()
     if request.method=="POST":
-        form=UserCreationForm(request.POST)
+        form=CustomRegisterForm(request.POST)
         if form.is_valid():
             user=form.save()
+            email = form.cleaned_data.get("email")
+            send_mail(
+                subject="Welcome to JobTrack! 🎉",
+                message=f"""Hi {user.username},
+
+                Welcome to JobTrack! Your account has been successfully created.
+
+                Here's what you can do now:
+                - Track your job applications
+                - Generate AI-powered cover letters
+                - Never miss a deadline
+
+                Visit your dashboard: https://job-application-tracker-gcbo.onrender.com/dashboard/
+
+                Best regards,
+                The JobTrack Team
+                """,
+                from_email="JobTrack <noreply.jobtracker111@gmail.com>",
+                recipient_list=[email],
+                fail_silently=False,
+                )
             login(request,user)
             return redirect("dashboard")
     return render(request,'register.html',{"form":form})
