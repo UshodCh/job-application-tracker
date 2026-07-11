@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
 from django.db.models import Count,Q
 from datetime import date
+import threading
 from django.core.mail import send_mail
 from .models import jobappli,Profile
 from .forms import jobappliform,ProfileForm
@@ -15,27 +16,40 @@ import os
 load_dotenv()
 client = genai.Client(api_key=os.getenv("AIzaSyDQC3rOu1zTj1PkzBeG0f345KE_qh0h_Y8"))
 # Create your views here.
+
+def send_welcome_email(username, email):
+    try:
+        send_mail(
+            "Welcome to JobTrack! 🎉",
+            f"""Hi {username}, welcome to JobTrack!
+            
+            Start tracking your job applications today.
+
+            Best regards,
+            The JobTrack Team""",
+            "noreply.jobtracker111@gmail.com",
+            [email],
+            fail_silently=True,
+        )
+    except Exception:
+        pass
+
 def register(request):
-    form=CustomRegisterForm()
-    if request.method=="POST":
-        form=CustomRegisterForm(request.POST)
+    form = CustomRegisterForm()
+    if request.method == "POST":
+        form = CustomRegisterForm(request.POST)
         if form.is_valid():
             user = form.save()
             email = form.cleaned_data.get("email")
-    
-            try:
-                send_mail(
-                    "Welcome to JobTrack! 🎉",
-                    f"""Hi {user.username}, welcome to JobTrack!""",
-                    "noreply.jobtracker111@gmail.com",
-                    [email],
-                    fail_silently=True, 
-                )
-            except Exception:
-                pass 
+            
+            # Send email in background — won't block registration!
+            thread = threading.Thread(target=send_welcome_email, args=(user.username, email))
+            thread.daemon = True
+            thread.start()
+            
             login(request, user)
             return redirect("dashboard")
-    return render(request,'register.html',{"form":form})
+    return render(request, 'register.html', {"form": form})
 def log_out(request):
     logout(request)
     return redirect("loginn")
