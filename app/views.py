@@ -20,29 +20,20 @@ def register(request):
     if request.method=="POST":
         form=CustomRegisterForm(request.POST)
         if form.is_valid():
-            user=form.save()
+            user = form.save()
             email = form.cleaned_data.get("email")
-            send_mail(
-                subject="Welcome to JobTrack! 🎉",
-                message=f"""Hi {user.username},
-
-                Welcome to JobTrack! Your account has been successfully created.
-
-                Here's what you can do now:
-                - Track your job applications
-                - Generate AI-powered cover letters
-                - Never miss a deadline
-
-                Visit your dashboard: https://job-application-tracker-gcbo.onrender.com/dashboard/
-
-                Best regards,
-                The JobTrack Team
-                """,
-                from_email="JobTrack <noreply.jobtracker111@gmail.com>",
-                recipient_list=[email],
-                fail_silently=False,
+    
+            try:
+                send_mail(
+                    "Welcome to JobTrack! 🎉",
+                    f"""Hi {user.username}, welcome to JobTrack!""",
+                    "noreply.jobtracker111@gmail.com",
+                    [email],
+                    fail_silently=True, 
                 )
-            login(request,user)
+            except Exception:
+                pass 
+            login(request, user)
             return redirect("dashboard")
     return render(request,'register.html',{"form":form})
 def log_out(request):
