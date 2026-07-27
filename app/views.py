@@ -153,7 +153,7 @@ def coverletter(request):
 
         Make it formal, concise and compelling. 3 paragraphs max.
         """
-        client = genai.Client(api_key=os.getenv("AIzaSyDQC3rOu1zTj1PkzBeG0f345KE_qh0h_Y8"))
+        client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
         response = client.models.generate_content(
             model="gemini-2.0-flash",
             contents=prompt
