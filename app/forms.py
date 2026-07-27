@@ -16,7 +16,7 @@ class CustomRegisterForm(UserCreationForm):
 class jobappliform(forms.ModelForm):
     class Meta:
         model=jobappli
-        fields=["comname","title","location","status","apldate","link","notes","examdate"]
+        fields=["comname","title","location","status","ctc","apldate","link","notes","examdate"]
 
 class ProfileForm(forms.ModelForm):
     class Meta:
