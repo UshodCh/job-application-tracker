@@ -161,19 +161,19 @@ tr.overdue:hover td { background: #fee8e8; }
                     <th>Company</th>
                     <th>Role</th>
                     <th>Status</th>
-                    <th>Deadline</th>
+                    <th>Exam Date</th>
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
                 {% for app in applis %}
-                <tr {% if app.deadline and app.deadline < today %}class="overdue"{% endif %}>
+                <tr {% if app.examdate and app.examdate < today %}class="overdue"{% endif %}>
                     <td class="company-cell">{{ app.comname }}</td>
                     <td class="role-cell">{{ app.title }}</td>
                     <td><span class="status-badge status-{{ app.status }}">{{ app.status }}</span></td>
                     <td>
-                        {{ app.deadline|default:"—" }}
-                        {% if app.deadline and app.deadline < today %}
+                        {{ app.examdate|default:"—" }}
+                        {% if app.examdate and app.examdate < today %}
                         <span class="overdue-badge">Overdue</span>
                         {% endif %}
                     </td>

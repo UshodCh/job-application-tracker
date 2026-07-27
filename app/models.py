@@ -16,7 +16,7 @@ class jobappli(models.Model):
     notes = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     examdate=models.DateField(blank=True, null=True)
-    ctc=models.FloatField()
+    ctc=models.FloatField(null=True, blank=True)
 
     def __str__(self):
        return f"{self.comname} - {self.title}"
