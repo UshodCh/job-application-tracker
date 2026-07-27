@@ -6,6 +6,7 @@ from django.core.mail import send_mail
 from django.db.models import Count,Q
 from datetime import date
 import threading
+from google import genai
 from django.core.mail import send_mail
 from .models import jobappli,Profile
 from .forms import jobappliform,ProfileForm
@@ -14,7 +15,7 @@ from dotenv import load_dotenv
 import os
 
 load_dotenv()
-client = genai.Client(api_key=os.getenv("AIzaSyDQC3rOu1zTj1PkzBeG0f345KE_qh0h_Y8"))
+client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
 # Create your views here.
 
 def send_welcome_email(username, email):
