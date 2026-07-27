@@ -15,7 +15,7 @@ class jobappli(models.Model):
     link = models.URLField(blank=True)
     notes = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
-    deadline=models.DateField(blank=True, null=True)
+    examdate=models.DateField(blank=True, null=True)
 
     def __str__(self):
        return f"{self.comname} - {self.title}"
