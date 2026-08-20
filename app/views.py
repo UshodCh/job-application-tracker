@@ -17,23 +17,25 @@ import os
 load_dotenv()
 client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
 # Create your views here.
-
 def send_welcome_email(username, email):
     try:
         send_mail(
             "Welcome to JobTrack! 🎉",
             f"""Hi {username}, welcome to JobTrack!
-            
-            Start tracking your job applications today.
 
-            Best regards,
-            The JobTrack Team""",
+                Start tracking your job applications today.
+
+                Best regards,
+                The JobTrack Team""",
             "noreply.jobtracker111@gmail.com",
             [email],
-            fail_silently=True,
+            fail_silently=False,
         )
-    except Exception:
-        pass
+
+        print(f"✅ Welcome email sent successfully to {email}")
+
+    except Exception as e:
+        print(f"❌ Welcome email failed for {email}: {e}")
 
 def register(request):
     form = CustomRegisterForm()
